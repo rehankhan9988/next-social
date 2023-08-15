@@ -1,35 +1,43 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./page.module.css";
 import ImageComponent from "@/components/Image";
 import useSWR from "swr";
 import { useRouter } from "next/navigation";
-import { SERVER_IP } from "../../config";
+import { SERVER_IP } from "../config";
 import { UploadImage } from "@/components/uploadImage";
 const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
 const Home = () => {
+  const [userdata, setUserData] = useState("");
+
   const { data, mutate, error, isLoading } = useSWR(
     `${SERVER_IP}/image/All`,
     fetcher
   );
 
-  let userdata = JSON.parse(localStorage.getItem("userData"));
+  // let userdata = JSON.parse(localStorage.getItem("userData"));
   const router = useRouter();
-  if (!userdata) {
-    router.push("/login");
-  }
+  // if (!userdata) {
+  //   router.push("/login");
+  // }
 
   const reversedData = data ? [...data].reverse() : [];
 
   const checkifliked = (item) => {
-    const liked = item.likedBy.includes(userdata.user._id);
+    const liked = item.likedBy.includes(userdata?.user?._id);
     return liked;
   };
-
+  useEffect(() => {
+    let userdata = JSON.parse(localStorage.getItem("userData"));
+    setUserData(userdata);
+    if (!userdata) {
+      router.push("/login");
+    }
+  }, []);
   return (
     <>
-      <UploadImage mutate={mutate} />
+      <UploadImage mutate={mutate} userdata={userdata} />
       <div className={styles.blog_container}>
         {data?.length == 0 ? (
           <div className={styles.center}>

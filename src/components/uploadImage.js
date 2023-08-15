@@ -1,12 +1,13 @@
 "use client";
 import axios from "axios";
 import React, { useRef, useState } from "react";
-import { SERVER_IP } from "../../config";
+import { SERVER_IP } from "../config";
 import styles from "../app/page.module.css";
-export const UploadImage = ({ mutate }) => {
+import { useRouter } from "next/navigation";
+export const UploadImage = ({ mutate, userdata }) => {
   const inputref = useRef(null);
   const [selectedFile, setSelectedFile] = useState(null);
-  let userdata = JSON.parse(localStorage.getItem("userData"));
+  const router = useRouter();
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     setSelectedFile(file);
@@ -15,7 +16,6 @@ export const UploadImage = ({ mutate }) => {
     if (selectedFile) {
       const formData = new FormData();
       formData.append("media", selectedFile);
-
       try {
         const response = await axios.post(
           `${SERVER_IP}/image/upload/${userdata?.user?._id}`,
@@ -25,23 +25,33 @@ export const UploadImage = ({ mutate }) => {
         setSelectedFile(null);
         inputref.current.value = "";
         mutate();
-        // router.push("/");
       } catch (error) {
         console.error("Error uploading image:", error);
       }
     }
   };
   return (
-    <div className={styles.center}>
-      <button style={{ padding: "10px", margin: "3%" }}>
-        <input
-          ref={inputref}
-          type="file"
-          accept="image/*"
-          onChange={handleFileChange}
-          className={styles.uploadInput}
-        />
-      </button>
+    <>
+      <div className={styles.center}>
+        <button style={{ padding: "10px", margin: "3%" }}>
+          <input
+            ref={inputref}
+            type="file"
+            accept="image/*"
+            onChange={handleFileChange}
+            className={styles.uploadInput}
+          />
+        </button>
+        <button
+          style={{ padding: "10px", margin: "3%" }}
+          onClick={() => {
+            localStorage.removeItem("userData");
+            router.push("/login");
+          }}
+        >
+          Log Out
+        </button>
+      </div>
       <div className={styles.previewSection}>
         {selectedFile && (
           <>
@@ -52,29 +62,18 @@ export const UploadImage = ({ mutate }) => {
                 src={URL.createObjectURL(selectedFile)}
                 alt="Selected"
               />
+              <button
+                className={styles.uploadButton}
+                onClick={() => {
+                  handleUpload();
+                }}
+              >
+                Upload
+              </button>
             </div>
-
-            <button
-              className={styles.uploadButton}
-              onClick={() => {
-                handleUpload();
-                // router.push("/imagePath")
-              }}
-            >
-              Upload
-            </button>
           </>
         )}
       </div>
-      <button
-        style={{ padding: "10px", margin: "3%" }}
-        onClick={() => {
-          localStorage.removeItem("userData");
-          router.push("/login");
-        }}
-      >
-        Log Out
-      </button>
-    </div>
+    </>
   );
 };
