@@ -4,7 +4,7 @@ import styles from "../register/page.module.css";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-import { SERVER_IP } from "../../config";
+import { SERVER_IP } from "../../serverIp";
 const Page = () => {
   const router = useRouter();
   const [error, setError] = useState(false);

@@ -4,7 +4,7 @@ import styles from "./page.module.css";
 import ImageComponent from "@/components/Image";
 import useSWR from "swr";
 import { useRouter } from "next/navigation";
-import { SERVER_IP } from "../config";
+import { SERVER_IP } from "../serverIp";
 import { UploadImage } from "@/components/uploadImage";
 const fetcher = (...args) => fetch(...args).then((res) => res.json());
 

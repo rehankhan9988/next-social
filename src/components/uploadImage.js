@@ -1,7 +1,7 @@
 "use client";
 import axios from "axios";
 import React, { useRef, useState } from "react";
-import { SERVER_IP } from "../config";
+import { SERVER_IP } from "../serverIp";
 import styles from "../app/page.module.css";
 import { useRouter } from "next/navigation";
 export const UploadImage = ({ mutate, userdata }) => {
