@@ -1,6 +1,6 @@
 [[redirects]]
   from = "http://154.26.136.191:130/user/login*"
   to = "http://154.26.136.191:130/user/login:splat"
-  status = 301
+  status = 200
   force = true
 
