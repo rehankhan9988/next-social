@@ -5,13 +5,14 @@ import ImageComponent from "@/components/Image";
 import useSWR from "swr";
 import { useRouter } from "next/navigation";
 import { UploadImage } from "@/components/uploadImage";
+import { configIp } from "./serverIp";
 const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
 const Home = () => {
   const [userdata, setUserData] = useState("");
 
   const { data, mutate, error, isLoading } = useSWR(
-    `${process.env.API_KEY}/image/All`,
+    `${configIp}/image/All`,
     fetcher
   );
 

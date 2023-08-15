@@ -4,6 +4,7 @@ import styles from "../register/page.module.css";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import { configIp } from "../serverIp";
 
 const Page = () => {
   const router = useRouter();
@@ -17,10 +18,7 @@ const Page = () => {
         username: name,
         password: password,
       };
-      const { data } = await axios.post(
-        `${process.env.API_KEY}/user/login`,
-        obj
-      );
+      const { data } = await axios.post(`${configIp}/user/login`, obj);
 
       localStorage.setItem("userData", JSON.stringify(data));
       data?.message && router?.push("/");

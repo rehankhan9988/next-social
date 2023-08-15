@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "../../src/app/page.module.css";
 import axios from "axios";
+import { configIp } from "@/app/serverIp";
 
 const ImageComponent = ({ item, mutate, liked }) => {
   const comment = item?.comments;
@@ -15,10 +16,7 @@ const ImageComponent = ({ item, mutate, liked }) => {
     };
     try {
       if (value) {
-        const { data } = await axios.post(
-          `${process.env.API_KEY}/image/commnet`,
-          obj
-        );
+        const { data } = await axios.post(`${configIp}/image/commnet`, obj);
         mutate();
         setValue("");
       }
@@ -30,7 +28,7 @@ const ImageComponent = ({ item, mutate, liked }) => {
   const like = async () => {
     try {
       let obj = { userId: data.user._id, imageId: item._id };
-      await axios.post(`${process.env.API_KEY}/image/like`, obj);
+      await axios.post(`${configIp}/image/like`, obj);
       mutate();
       setChecked(true);
     } catch (error) {
