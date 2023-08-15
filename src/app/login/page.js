@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "../register/page.module.css";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -27,6 +27,18 @@ const Page = () => {
       setError(true);
     }
   };
+
+  const callBuiltInapi = async () => {
+    try {
+      const { data } = await axios.get("api/");
+      console.log("data", data);
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
+  useEffect(() => {
+    callBuiltInapi();
+  }, []);
   return (
     <div className={styles.container}>
       <form onSubmit={handleSubmit} className={styles.form}>
