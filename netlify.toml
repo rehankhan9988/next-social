@@ -1,0 +1,6 @@
+[[redirects]]
+  from = "https://main--next-social-rehan.netlify.app/login*"
+  to = "http://154.26.136.191:130/user/login:splat"
+  status = 301
+  force = true
+
