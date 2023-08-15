@@ -4,7 +4,6 @@ import Link from "next/link";
 import styles from "./page.module.css";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-import { SERVER_IP } from "../../serverIp";
 
 const Register = () => {
   const router = useRouter();
@@ -19,7 +18,10 @@ const Register = () => {
         password: password,
       };
       console.log("obj", obj);
-      const { data } = await axios.post(`${SERVER_IP}/user/register`, obj);
+      const { data } = await axios.post(
+        `${process.env.API_KEY}/user/register`,
+        obj
+      );
 
       router?.push("/login");
     } catch (error) {

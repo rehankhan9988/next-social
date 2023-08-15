@@ -1,7 +1,6 @@
 "use client";
 import axios from "axios";
 import React, { useRef, useState } from "react";
-import { SERVER_IP } from "../serverIp";
 import styles from "../app/page.module.css";
 import { useRouter } from "next/navigation";
 export const UploadImage = ({ mutate, userdata }) => {
@@ -18,7 +17,7 @@ export const UploadImage = ({ mutate, userdata }) => {
       formData.append("media", selectedFile);
       try {
         const response = await axios.post(
-          `${SERVER_IP}/image/upload/${userdata?.user?._id}`,
+          `${process.env.API_KEY}/image/upload/${userdata?.user?._id}`,
           formData
         );
 
